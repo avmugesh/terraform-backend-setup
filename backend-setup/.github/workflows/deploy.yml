@@ -2,6 +2,11 @@ name: Terraform Deploy
 
 on:
   workflow_dispatch:
+    inputs:
+      auto_apply:
+        description: "Apply Terraform automatically?"
+        required: false
+        default: "false"
 
 jobs:
   terraform:
@@ -11,6 +16,11 @@ jobs:
     defaults:
       run:
         working-directory: backend-setup
+
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_REGION: ${{ secrets.AWS_REGION }}
 
     steps:
       - name: Checkout code
@@ -33,7 +43,7 @@ jobs:
       - name: Terraform Plan
         run: terraform plan
 
-      - name: Terraform Apply (Manual Approval)
+      - name: Terraform Apply (Manual Trigger with Auto-Approve)
         if: github.event.inputs.auto_apply == 'true'
         run: terraform apply -auto-approve
 

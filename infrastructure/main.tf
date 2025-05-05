@@ -2,7 +2,7 @@ terraform {
   backend "s3" {
     bucket         = "terraform-state-myproject"https://github.com/avmugesh/terraform-backend-setup/tree/main
     key            = "state/dev/infrastructure.tfstate"
-    region         = "us-east-1a"
+    region         = var.aws_region
     dynamodb_table = "terraform-locks"
     encrypt        = true
   }

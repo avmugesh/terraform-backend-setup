@@ -1,6 +1,6 @@
 terraform {}
 provider "aws" {
-  region = "us-east-1a"
+  region = var.aws_region
 }
 
 module "backend" {
